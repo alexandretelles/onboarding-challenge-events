@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: CREATE-TABLE_CALL
+      author: Alexandre Telles
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: call
+      changes:
+        - createTable:
+            tableName: call
+            columns:
+              - column:
+                  name: id
+                  type: VARCHAR(35)
+                  constraints:
+                    nullable: FALSE
+                    primaryKey: TRUE
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: FALSE
+              - column:
+                  name: start_date
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: FALSE
+              - column:
+                  name: end_date
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: TRUE
+              - column:
+                  name: duration
+                  type: INTEGER
+                  constraints:
+                    nullable: TRUE
+              - column:
+                  name: customer_phone_number
+                  type: VARCHAR(15)
+                  constraints:
+                    nullable: FALSE
+              - column:
+                  name: call_outcome
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: TRUE
+              - column:
+                  name: agent_id
+                  type: BIGINT
+                  constraints:
+                    nullable: TRUE
+                    foreignKeyName: FK_AGENT-ID
+                    references: agent(id)
