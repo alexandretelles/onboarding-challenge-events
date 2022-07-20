@@ -24,7 +24,7 @@ import javax.validation.constraints.Pattern
 @RestController
 @RequestMapping("/call")
 @Validated
-class CallController @Autowired constructor(private val callService: ICallInput) {
+class CallController(private val callService: ICallInput) {
 
     @GetMapping(
         produces = [MediaType.APPLICATION_JSON_VALUE]

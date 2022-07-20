@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
 @Component
-class CallEventConsumer @Autowired constructor(private val callInput: ICallInput) {
+class CallEventConsumer (private val callInput: ICallInput) {
     @Bean
     fun inboundCall() = handlerFor<CallEventDTO> { event ->
         println("Handle event $event")

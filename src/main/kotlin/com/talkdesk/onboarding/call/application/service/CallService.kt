@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
 @Service
-class CallService @Autowired constructor(private val callOutput: ICallOutput) : ICallInput {
+class CallService(private val callOutput: ICallOutput) : ICallInput {
     override fun receiveCall(call: Call) {
         callOutput.saveCall(call)
     }

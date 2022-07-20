@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 @Service
-class CallOutput @Autowired constructor(private val repository: ICallJPARepository) : ICallOutput {
+class CallOutput(private val repository: ICallJPARepository) : ICallOutput {
     override fun saveCall(call: Call) {
         val currentCallEntity = repository.findById(call.callId)
 
