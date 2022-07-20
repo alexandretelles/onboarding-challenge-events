@@ -9,15 +9,3 @@ spring:
     show-sql: 'true'
   liquibase:
     enabled: 'true'
-
-rabbitmq:
-  talkdesk:
-    consumer:
-      url: ${RABBITMQ_URL}
-#      connection:
-#        host: rabbitmq
-#        username: rabbit
-#        password: rabbit
-#        vhost:
-#        protocol: amqp
-#        port: 5672

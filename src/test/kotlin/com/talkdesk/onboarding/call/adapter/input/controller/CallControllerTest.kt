@@ -6,14 +6,17 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.mock
+import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -26,12 +29,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest(properties = ["rabbit.auto-startup=false"])
-// @EnableAutoConfiguration(
-//     exclude = [
-//         JpaRepositoriesAutoConfiguration::class,
-//         DataSourceAutoConfiguration::class
-//     ]
-// )
+@EnableAutoConfiguration(
+    exclude = [
+        JpaRepositoriesAutoConfiguration::class,
+        DataSourceAutoConfiguration::class
+    ]
+)
 @ActiveProfiles("test")
 class CallControllerTest {
 
@@ -40,7 +43,8 @@ class CallControllerTest {
 
     private lateinit var mockMvc: MockMvc
 
-    val repository: ICallJPARepository = mock()
+    @MockBean
+    private lateinit var repository: ICallJPARepository
 
     @BeforeEach
     fun setup() {
@@ -53,8 +57,6 @@ class CallControllerTest {
 
         @Test
         fun `should return call history`() {
-
-            val pageRequest = PageRequest.of(0, 1, Sort.Direction.valueOf("ASC"), "id")
             val pageCall: Page<CallEntity> = PageImpl(
                 listOf(
                     CallEntity(
@@ -70,7 +72,7 @@ class CallControllerTest {
                 )
             )
 
-            whenever(repository.findAll(pageRequest)).thenReturn(pageCall)
+            whenever(repository.findAll(any<PageRequest>())).thenReturn(pageCall)
 
             mockMvc.perform(get("/call"))
                 .andDo(print())
@@ -80,7 +82,7 @@ class CallControllerTest {
                 .andExpect(jsonPath("$.content[0].start_date").value("2022-07-20T07:57:01Z"))
                 .andExpect(jsonPath("$.content[0].end_date").value(null))
                 .andExpect(jsonPath("$.content[0].customer_phone_number").value("+351920118522"))
-                .andExpect(jsonPath("$.content[0].call_outcome").value("ringing"))
+                .andExpect(jsonPath("$.content[0].call_outcome").value("voicemail"))
                 .andExpect(jsonPath("$.content[0].status").value("ringing"))
                 .andExpect(jsonPath("$.content[0].duration").value(1))
                 .andExpect(jsonPath("$.content[0].agent_id").value(1))
