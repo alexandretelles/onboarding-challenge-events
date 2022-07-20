@@ -1,20 +1,22 @@
 server:
-    port: 5001
+  servlet:
+    context-path: /onboarding
+  port: 5001
 spring:
-    profiles:
-        active: ${SPRING_PROFILES_ACTIVE:local}
-    data:
-        jpa:
-            properties:
-                show-sql: 'true'
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  data:
     jpa:
-        hibernate:
-            naming:
-                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    application:
-        name: onboarding-challenge-events
-    jackson:
-        serialization:
-            write_dates_as_timestamps: false
-    liquibase:
-        change-log: db\changelog\changelog-master.yml
+      properties:
+        show-sql: 'true'
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  application:
+    name: onboarding-challenge-events
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+  liquibase:
+    change-log: db\changelog\changelog-master.yml

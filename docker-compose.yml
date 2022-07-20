@@ -1,26 +1,17 @@
 version: '3.8'
 services:
-  postgres:
-    image: postgres:14.4-bullseye
-    restart: always
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "onboarding"
-      RABBITMQ_AMQP: "amqp://rabbit:rabbit@rabbitmq:5672"
-    ports:
-      - '5432:5432'
-    volumes:
-      - db:/var/lib/postgresql/data
   backend:
+    container_name: events
     build: ./
     ports:
       - "5001:5001"
     environment:
       SPRING_PROFILES_ACTIVE: local
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/onboarding
-    depends_on:
-      - postgres
-volumes:
-  db:
-    driver: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/onboarding
+      RABBITMQ_URL: amqp://rabbit:rabbit@rabbitmq:5672
+    networks:
+      - onboarding-network
+networks:
+  onboarding-network:
+    external: true
+    name: onboarding-network
