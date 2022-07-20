@@ -30,6 +30,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.liquibase:liquibase-core")
 	implementation("com.talkdesk:talkdesk-events-kt:2.0.4")
+
+	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+	testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.0")
+	testImplementation("io.mockk:mockk:1.12.4")
 }
 
 tasks.withType<KotlinCompile> {

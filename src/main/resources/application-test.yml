@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/onboarding
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: 'true'
+  liquibase:
+    enabled: 'true'
+
+rabbitmq:
+  talkdesk:
+    consumer:
+      url: ${RABBITMQ_URL}
+#      connection:
+#        host: rabbitmq
+#        username: rabbit
+#        password: rabbit
+#        vhost:
+#        protocol: amqp
+#        port: 5672
